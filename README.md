@@ -41,8 +41,7 @@ Processed the `date` variable and created additional features:
 - **Performed a log transformation** on the target variable, `sales`, to stabilize variance.
 
 ### 📉 Data Splitting:
-- Divided the dataset into training and validation sets.
-- Used the last 3 months as the validation set for accurate testing.
+- **Time-Based Validation Sets**: Initially, the training set was defined as data up to the end of 2016, and the validation set was the first 3 months of 2017. This approach ensured that the validation period closely resembled the forecasted period.
 
 ---
 
@@ -58,6 +57,27 @@ Processed the `date` variable and created additional features:
 
 ---
 
+## 🔍 Final Steps and Submissions
+
+- **Final Model**:  
+  In the final model, the following process was applied:  
+  - The combined dataset of train and test sets had a key difference:  
+    The `train` set included `sales` values, while the `test` set had `sales` values as NaN.  
+    To address this:  
+    ```python
+    train = df.loc[~df.sales.isna()]
+    x_train = train[cols]
+    Y_train = train["sales"]
+    
+    test = df.loc[df.sales.isna()]
+    x_test = test[cols]
+    ```
+
+- **Submission File Creation**:  
+  After predicting the `sales` values for the test set, these values and their corresponding `id` values were added to the `submissions_df` DataFrame. This DataFrame was then saved as a `.csv` file for submission.
+
+---
+
 ## 🔍 Visualizations
 
 ### 📈 Plotted annual sales trends and transaction counts for stores and items.
@@ -68,4 +88,5 @@ Processed the `date` variable and created additional features:
 ## ✨ Achievements
 ✅ Successful demand forecasting for store items.  
 ✅ Implementation of advanced feature engineering techniques.  
-✅ Accurate model evaluation using SMAPE as the metric.
+✅ Accurate model evaluation using SMAPE as the metric.  
+✅ Effective creation and submission of test predictions.
